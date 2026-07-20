@@ -1,0 +1,115 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ── users ──────────────────────────────────────────────────────────────
+    // A user can read/create their own profile. They can update their own
+    // profile EXCEPT the `role` and `enrolledPrograms` fields — those can
+    // only change via the Admin SDK (server) or an admin user, so a student
+    // can never grant themselves admin access or free enrollment by editing
+    // their own document.
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+                    && request.resource.data.uid == uid
+                    && request.resource.data.role == 'student';
+      allow update: if isAdmin() || (
+                      isOwner(uid) &&
+                      request.resource.data.role == resource.data.role &&
+                      request.resource.data.enrolledPrograms == resource.data.enrolledPrograms
+                    );
+      allow delete: if isAdmin();
+    }
+
+    // ── programs ───────────────────────────────────────────────────────────
+    // Public marketing catalog — readable by anyone, only admins can edit.
+    match /programs/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── resources ──────────────────────────────────────────────────────────
+    // Gated course content. Must be signed in at minimum so file/video URLs
+    // can't be scraped by anonymous visitors bypassing the paywall.
+    match /resources/{id} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── sessions ───────────────────────────────────────────────────────────
+    match /sessions/{id} {
+      allow read: if isAdmin() ||
+                    (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow write: if isAdmin();
+    }
+
+    // ── enrollments ────────────────────────────────────────────────────────
+    // Created by the server (payment verify / webhook use the Admin SDK,
+    // which bypasses these rules) or manually by an admin from the panel.
+    // Students can only ever read their own enrollment — never write it
+    // directly, which would let them grant themselves a program for free.
+    match /enrollments/{id} {
+      allow read: if isAdmin() ||
+                    (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow write: if isAdmin();
+    }
+
+    // ── journalEntries ─────────────────────────────────────────────────────
+    match /journalEntries/{id} {
+      allow read, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // ── affirmations ───────────────────────────────────────────────────────
+    match /affirmations/{id} {
+      allow read, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // ── contactMessages ────────────────────────────────────────────────────
+    // The public contact form writes here unauthenticated. Only allow a
+    // well-formed create — no reading other people's messages, no editing,
+    // no deleting. Only admins can manage them afterwards.
+    match /contactMessages/{id} {
+      allow create: if request.resource.data.name is string &&
+                      request.resource.data.name.size() > 0 &&
+                      request.resource.data.name.size() < 200 &&
+                      request.resource.data.email is string &&
+                      request.resource.data.email.size() < 200 &&
+                      request.resource.data.message is string &&
+                      request.resource.data.message.size() < 3000;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ── payments / otps ────────────────────────────────────────────────────
+    // Server-only collections. All access to these happens through the
+    // Admin SDK in API routes, which bypasses security rules entirely — so
+    // client access is denied outright.
+    match /payments/{id} {
+      allow read, write: if false;
+    }
+    match /otps/{id} {
+      allow read, write: if false;
+    }
+
+    // Deny anything not explicitly matched above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
