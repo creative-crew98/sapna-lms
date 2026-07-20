@@ -353,7 +353,7 @@ export default function AkashicLandingPage() {
         <div className='section-sm max-w-7xl! mx-auto reveal'>
           <Eyebrow>Does This Sound Familiar?</Eyebrow>
 
-          <div className='grid grid-cols-2 lg:grid-cols-6 gap-5 mt-10'>
+          <div className='grid grid-cols-1 lg:grid-cols-6 gap-5 mt-10'>
             {familiarPoints.map((p, i) => (
               <div
                 key={p.title}
@@ -472,7 +472,7 @@ export default function AkashicLandingPage() {
             between soul-level and practical, daily human action across your
             Health, Wealth & Relationships.
           </p>
-          <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 mt-12'>
+          <div className='grid grid-cols-1 lg:grid-cols-4 gap-6 mt-12'>
             {journeySteps.map((s, i) => (
               <div
                 key={s.num}
@@ -510,7 +510,7 @@ export default function AkashicLandingPage() {
                 ))}
               </ul>
             </div>
-            <div className='relative w-full h-full min-h-[280px] flex items-center justify-end pr-6 opacity-30 select-none'>
+            <div className='relative w-full hidden h-full min-h-[280px] md:flex items-center justify-end pr-6 opacity-30 select-none'>
               <div className='relative w-40 h-40 md:w-56 md:h-56'>
                 <Image
                   src='/flower.png'
