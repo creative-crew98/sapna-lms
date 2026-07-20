@@ -60,7 +60,7 @@ export default function AboutSection(): JSX.Element {
 
             {/* Avatar wrapper — hover scale + glow */}
             <div
-              className='relative h-36 w-36 sm:h-40 sm:w-40 rounded-full overflow-hidden cursor-default
+              className='relative h-60! w-60! sm:h-40 sm:w-40 rounded-full overflow-hidden cursor-default
                          transition-all duration-300
                          hover:scale-[1.05]'
               style={{
@@ -81,9 +81,10 @@ export default function AboutSection(): JSX.Element {
               }}
             >
               <img
-                src='/sapna.jpeg'
+                src='/landing.jpeg'
                 alt='Sapna Lamba'
-                className='w-full h-full object-cover object-top transition-transform duration-500 hover:scale-[1.04]'
+                className='w-full h-full object-cover object-center transition-transform duration-500 hover:scale-[1.04]'
+                style={{ transform: 'scale(1.2)' }}
               />
             </div>
           </div>

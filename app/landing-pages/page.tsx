@@ -24,7 +24,9 @@ function useScrollReveal() {
   useEffect(() => {
     const root = rootRef.current
     if (!root) return
-    const els = root.querySelectorAll('.reveal, .reveal-left, .reveal-right')
+    const els = root.querySelectorAll(
+      '.reveal, .reveal-left, .reveal-right, .reveal-scale',
+    )
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -231,6 +233,22 @@ const testimonials = [
   },
 ]
 
+/* ── Hero feature cards (reference layout style) ── */
+const heroFeatures = [
+  {
+    title: 'Root-Cause Akashic Reading',
+    desc: 'We identify the exact karmic pattern blocking your health, wealth or relationships — not just symptoms.',
+  },
+  {
+    title: 'Guided Healing Sessions',
+    desc: 'Live 1:1 sessions combining Akashic insight with practical coaching tools to release old conditioning.',
+  },
+  {
+    title: 'Ongoing Support & Practices',
+    desc: 'WhatsApp support, healing audios, and reflection exercises so transformation sticks beyond the session.',
+  },
+]
+
 const GLASS =
   'bg-white/20 backdrop-blur-2xl backdrop-saturate-150 border border-white/55 ring-1 ring-inset ring-white/30'
 
@@ -245,104 +263,129 @@ export default function AkashicLandingPage() {
   return (
     <div
       ref={rootRef}
-      className='bg-base text-ink min-h-screen overflow-x-hidden'
+      className='bg-base text-ink min-h-screen overflow-x-hidden akashic-landing'
     >
-      <section
-        className='relative overflow-hidden bg-linear-to-br from-pink-50 via-white to-pink-100 min-h-screen flex items-center bg-cover bg-center bg-no-repeat'
-        style={{ backgroundImage: `url(background.png)` }}
-      >
-        {/* Overlay for text readability */}
-        <div className='absolute inset-0 bg-white/20 backdrop-blur-[2px] z-0' />
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        .akashic-landing {
+          --font-serif: 'Poppins', system-ui, sans-serif;
+          --font-sans: 'Inter', system-ui, sans-serif;
+          font-family: var(--font-sans);
+        }
+        .akashic-landing h1,
+        .akashic-landing h2,
+        .akashic-landing h3,
+        .akashic-landing h4,
+        .akashic-landing h5,
+        .akashic-landing h6 {
+          font-family: var(--font-serif);
+          font-weight: 500;
+        }
+      `}</style>
+      {/* ── HERO ── */}
+      <section className='relative overflow-hidden bg-linear-to-br from-pink-50 via-white to-pink-100 min-h-screen flex items-center'>
+        {/* Layered gradient background (replaces background.png) */}
+        <div
+          className='absolute inset-0 z-0'
+          style={{
+            background:
+              'radial-gradient(ellipse 80% 60% at 20% 15%, rgba(224,96,192,0.16), transparent 60%), ' +
+              'radial-gradient(ellipse 70% 55% at 85% 85%, rgba(196,56,138,0.14), transparent 60%), ' +
+              'linear-gradient(180deg, #fff5fc 0%, #fff0fb 45%, #fce8f7 100%)',
+          }}
+        />
+
+        {/* subtle overlay for text readability */}
+        <div className='absolute inset-0 bg-white/10 backdrop-blur-[1px] z-0' />
 
         <div className='orb orb-rose w-100 h-100 -top-35 -right-25' />
         <div className='orb orb-gold w-95 h-95 -bottom-30 -left-20' />
-        <div className='section relative z-10 grid md:grid-cols-2 gap-12 items-center py-24!'>
-          <div className='reveal-left'>
-            <>
-              <style>{`
-    @keyframes eyebrowFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-    .eyebrow-float {
-      animation: eyebrowFloat 3s ease-in-out infinite;
-    }
-  `}</style>
-              <p className='eyebrow-float flex items-center gap-3 mb-6 text-sm md:text-base font-semibold tracking-wide text-magenta-700'>
-                <Sparkle className='w-4 h-4 text-rose' fill='currentColor' />
-                Akashic Readings Meet Life Coaching
-                <Sparkle className='w-4 h-4 text-rose' fill='currentColor' />
-              </p>
-            </>
-            <h1 className='text-sans text-ink-900 leading-none font-semibold! text-3xl! md:text-5xl!'>
-              You've tried
-              <br />
-              everything. Yet the
-              <br />
-              <span className='text-gradient-shimmer italic'>same pain</span>
-              <br />
-              keeps finding you.
-            </h1>
-            <div className='divider-rose ml-0! mt-5' />
-            <p className='text-serif italic text-lg md:text-xl text-burgundy mt-4'>
-              Maybe the problem isn't your life.
-              <br />
-              Maybe it's the{' '}
-              <span className='text-gold font-semibold'>pattern.</span>
-            </p>
-            <p className='max-w-md mt-4 text-base md:text-lg leading-relaxed text-ink-800'>
-              You are not unlucky. You are not broken. You are not cursed. You
-              are carrying patterns—old, deep, invisible ones—that keep pulling
-              you back into the same place.
-            </p>
-            <p className='max-w-md mt-3 text-base md:text-lg leading-relaxed text-ink-800'>
-              Through{' '}
-              <strong className='text-ink-900'>Akashic Record Reading</strong>{' '}
-              combined with{' '}
-              <strong className='text-ink-900'>
-                Life and Relationship Coaching
-              </strong>
-              , I help you find the root of those patterns—and finally break
-              them.
-            </p>
-            <div className='mt-8'>
-              <CTAButton onClick={scrollToOffer}>
-                I want to understand why →
-              </CTAButton>
-            </div>
-            <div className='flex flex-wrap gap-4 mt-6'>
-              {[
-                '1:1 with Sapna',
-                'Soul-level reading + practical coaching',
-                'Limited spots',
-              ].map((t) => (
-                <span
-                  key={t}
-                  className='sparkle-dot text-sm md:text-base font-medium text-ink-800'
-                >
-                  {t}
+
+        <div className='section relative z-10 flex flex-col items-center text-center py-24! max-w-3xl! mx-auto'>
+          <style>{`
+            @keyframes eyebrowFloat {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-6px); }
+            }
+            .eyebrow-float {
+              animation: eyebrowFloat 3s ease-in-out infinite;
+            }
+          `}</style>
+          <p className='eyebrow-float flex items-center justify-center gap-3 mb-6 text-sm md:text-base font-semibold tracking-wide text-magenta-700'>
+            <Sparkle className='w-4 h-4 text-rose' fill='currentColor' />
+            The Akashic Alignment Method
+            <Sparkle className='w-4 h-4 text-rose' fill='currentColor' />
+          </p>
+
+          {/* ── Headline ── */}
+          <h1 className='reveal text-sans text-ink-900 leading-tight font-semibold! text-4xl! md:text-6xl!'>
+            We Help Individuals Stuck In Cycles Of{' '}
+            <span className='text-gradient-shimmer italic'>
+              Poor Health, Wealth &amp; Broken Relationships
+            </span>{' '}
+            To Heal Root Karmic Blocks — Using The Akashic Alignment Method
+          </h1>
+
+          <div className='divider-rose mt-6' />
+
+          {/* ── Subheadline ── */}
+          <p className='reveal max-w-2xl mt-4 text-lg md:text-xl leading-relaxed text-ink-800'>
+            The Done-With-You{' '}
+            <strong className='text-magenta-700'>
+              "Life &amp; Wealth System"
+            </strong>{' '}
+            — Engineered to reclaim your physical vitality, rebuild deep
+            relationship bonds, and predictably attract wealth in few sessions.
+          </p>
+
+          {/* ── Hero Image with Placeholder ── */}
+          <div className='reveal-scale mt-10'>
+            <div className='float-slow relative w-65 h-85 sm:w-85 sm:h-110 rounded-sm overflow-hidden shadow-[0_24px_64px_rgba(196,56,138,0.3)] border-[3px] border-white/60 pulse-ring'>
+              <Image
+                src='/about.jpeg'
+                alt='Coach Photo'
+                fill
+                sizes='(max-width: 640px) 260px, 340px'
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                priority
+                onError={(e) => {
+                  ;(e.target as HTMLImageElement).style.display = 'none'
+                }}
+              />
+              {/* Placeholder shown until real photo is added at /public/hero-photo.jpg */}
+              <div className='absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-pink-100 via-pink-200 to-pink-400 -z-10'>
+                <UserRound
+                  className='w-16 h-16 text-white/70'
+                  strokeWidth={1.5}
+                />
+                <span className='text-sm font-medium text-white/80 text-sans'>
+                  Your Photo Here
                 </span>
-              ))}
+              </div>
             </div>
           </div>
 
-          <div className='reveal-right flex justify-center'>
-            <div className='relative'>
-              <div className='float-slow relative w-[300px] h-[400px] sm:w-[360px] sm:h-[460px] rounded-[180px_180px_24px_24px] overflow-hidden shadow-[0_24px_64px_rgba(196,56,138,0.3)] border-[3px] border-white/60 pulse-ring'>
-                <Image
-                  src='/sapna-photo.jpg'
-                  alt='Sapna Lamba'
-                  fill
-                  sizes='(max-width: 640px) 300px, 360px'
-                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                  priority
-                  onError={(e) => {
-                    ;(e.target as HTMLImageElement).style.display = 'none'
-                  }}
-                />
-                <div className='absolute inset-0 bg-linear-to-br from-pink-100 via-pink-200 to-pink-400 -z-10' />
-              </div>
-            </div>
+          {/* ── CTA ── */}
+          <div className='mt-8'>
+            <CTAButton onClick={scrollToOffer}>
+              I want to understand why →
+            </CTAButton>
+          </div>
+
+          {/* ── Trust chips ── */}
+          <div className='flex flex-wrap justify-center gap-4 mt-6'>
+            {[
+              '1:1 with Sapna',
+              'Soul-level reading + practical coaching',
+              'Limited spots',
+            ].map((t) => (
+              <span
+                key={t}
+                className='sparkle-dot text-sm md:text-base font-medium text-ink-800'
+              >
+                {t}
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -394,11 +437,15 @@ export default function AkashicLandingPage() {
           <div className='reveal-left'>
             <div className='aspect-3/4 rounded-sm overflow-hidden relative shadow-[0_20px_60px_rgba(196,56,138,0.25)]'>
               <Image
-                src='/sapna-photo.jpg'
+                src='/landing.jpeg'
                 alt='Sapna Lamba'
                 fill
                 sizes='(max-width: 1024px) 100vw, 40vw'
-                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'center center',
+                  transform: 'scale(1.5)',
+                }}
                 onError={(e) => {
                   ;(e.target as HTMLImageElement).style.display = 'none'
                 }}
