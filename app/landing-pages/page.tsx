@@ -66,7 +66,7 @@ function CTAButton({
           position:relative;overflow:hidden;
           background:linear-gradient(135deg,#c4388a,#8a1a5c);
           color:#fff;border:2px solid transparent;border-radius:9999px;
-          padding:15px 36px;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;
+          padding:15px 36px;font-family:'Inter',sans-serif;font-weight:600;font-size:16px;
           letter-spacing:0.03em;cursor:pointer;
           transition:transform 0.2s ease,filter 0.2s ease;
           animation:ctaPulse 2.4s ease-in-out infinite,ctaBlink 2.4s ease-in-out infinite;
@@ -247,20 +247,33 @@ export default function AkashicLandingPage() {
       ref={rootRef}
       className='bg-base text-ink min-h-screen overflow-x-hidden'
     >
-      {/* ── HERO ── */}
       <section
-        className='relative overflow-hidden bg-linear-to-br from-pink-50 via-white to-pink-100 min-h-screen flex items-center object-cover'
+        className='relative overflow-hidden bg-linear-to-br from-pink-50 via-white to-pink-100 min-h-screen flex items-center bg-cover bg-center bg-no-repeat'
         style={{ backgroundImage: `url(background.png)` }}
       >
+        {/* Overlay for text readability */}
+        <div className='absolute inset-0 bg-white/20 backdrop-blur-[2px] z-0' />
+
         <div className='orb orb-rose w-100 h-100 -top-35 -right-25' />
         <div className='orb orb-gold w-95 h-95 -bottom-30 -left-20' />
         <div className='section relative z-10 grid md:grid-cols-2 gap-12 items-center py-24!'>
           <div className='reveal-left'>
-            <p className='label-eyebrow flex items-center gap-3 mb-6'>
-              <Sparkle className='w-3 h-3 text-rose' fill='currentColor' />
-              Akashic Readings Meet Life Coaching
-              <Sparkle className='w-3 h-3 text-rose' fill='currentColor' />
-            </p>
+            <>
+              <style>{`
+    @keyframes eyebrowFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .eyebrow-float {
+      animation: eyebrowFloat 3s ease-in-out infinite;
+    }
+  `}</style>
+              <p className='eyebrow-float flex items-center gap-3 mb-6 text-sm md:text-base font-semibold tracking-wide text-magenta-700'>
+                <Sparkle className='w-4 h-4 text-rose' fill='currentColor' />
+                Akashic Readings Meet Life Coaching
+                <Sparkle className='w-4 h-4 text-rose' fill='currentColor' />
+              </p>
+            </>
             <h1 className='text-sans text-ink-900 leading-none font-semibold! text-3xl! md:text-5xl!'>
               You've tried
               <br />
@@ -271,18 +284,18 @@ export default function AkashicLandingPage() {
               keeps finding you.
             </h1>
             <div className='divider-rose ml-0! mt-5' />
-            <p className='text-serif italic text-lg text-burgundy mt-4'>
+            <p className='text-serif italic text-lg md:text-xl text-burgundy mt-4'>
               Maybe the problem isn't your life.
               <br />
               Maybe it's the{' '}
               <span className='text-gold font-semibold'>pattern.</span>
             </p>
-            <p className='page-desc max-w-md mt-4'>
+            <p className='max-w-md mt-4 text-base md:text-lg leading-relaxed text-ink-800'>
               You are not unlucky. You are not broken. You are not cursed. You
               are carrying patterns—old, deep, invisible ones—that keep pulling
               you back into the same place.
             </p>
-            <p className='page-desc max-w-md mt-3'>
+            <p className='max-w-md mt-3 text-base md:text-lg leading-relaxed text-ink-800'>
               Through{' '}
               <strong className='text-ink-900'>Akashic Record Reading</strong>{' '}
               combined with{' '}
@@ -303,7 +316,10 @@ export default function AkashicLandingPage() {
                 'Soul-level reading + practical coaching',
                 'Limited spots',
               ].map((t) => (
-                <span key={t} className='sparkle-dot text-xs text-muted'>
+                <span
+                  key={t}
+                  className='sparkle-dot text-sm md:text-base font-medium text-ink-800'
+                >
                   {t}
                 </span>
               ))}
@@ -336,19 +352,20 @@ export default function AkashicLandingPage() {
         <div className='orb orb-gold w-90 h-90 -top-20 left-[10%] opacity-60' />
         <div className='section-sm max-w-7xl! mx-auto reveal'>
           <Eyebrow>Does This Sound Familiar?</Eyebrow>
+
           <div className='grid grid-cols-2 lg:grid-cols-6 gap-5 mt-10'>
             {familiarPoints.map((p, i) => (
               <div
                 key={p.title}
-                className={`reveal d${i + 1} text-center rounded-2xl p-7 transition-transform! duration-300! hover:-translate-y-2 shadow-[0_4px_20px_rgba(196,56,138,0.08)] ${GLASS}`}
+                className={`reveal d${i + 1} text-center rounded-sm p-7 transition-transform! duration-300! hover:-translate-y-2 shadow-[0_4px_20px_rgba(196,56,138,0.08)] ${GLASS}`}
               >
                 <div className='w-14 h-14 mx-auto rounded-full bg-linear-to-br from-pink-100 to-pink-200 flex items-center justify-center mb-5 text-2xl border border-pink-200/60'>
                   {p.emoji}
                 </div>
-                <h3 className='text-sans text-sm! font-semibold! text-magenta-700 mb-2'>
+                <h3 className='text-sans text-base! font-semibold! text-magenta-700 mb-2'>
                   {p.title}
                 </h3>
-                <p className='text-xs text-muted font-normal leading-relaxed'>
+                <p className='text-sm md:text-base text-ink-700 font-normal leading-relaxed'>
                   {p.desc}
                 </p>
               </div>
@@ -358,7 +375,7 @@ export default function AkashicLandingPage() {
             <CTAButton onClick={scrollToOffer}>
               Yes… this is exactly me
             </CTAButton>
-            <p className='page-desc mt-5 max-w-xl mx-auto text-center'>
+            <p className='mt-5 max-w-xl mx-auto text-center text-base md:text-lg leading-relaxed text-ink-800'>
               If even one of these hit—your soul is trying to guide you toward
               something much deeper.
               <br />
@@ -375,7 +392,7 @@ export default function AkashicLandingPage() {
         <div className='orb orb-gold w-[300px] h-[300px] top-1/3 right-[-100px] opacity-50' />
         <div className='section grid lg:grid-cols-[40%_60%] gap-14! items-center relative z-10'>
           <div className='reveal-left'>
-            <div className='aspect-[3/4] rounded-2xl overflow-hidden relative shadow-[0_20px_60px_rgba(196,56,138,0.25)]'>
+            <div className='aspect-3/4 rounded-sm overflow-hidden relative shadow-[0_20px_60px_rgba(196,56,138,0.25)]'>
               <Image
                 src='/sapna-photo.jpg'
                 alt='Sapna Lamba'
@@ -390,8 +407,10 @@ export default function AkashicLandingPage() {
             </div>
           </div>
           <div className='reveal-right'>
-            <p className='text-serif italic text-xl text-rose'>Hi, I'm Sapna</p>
-            <h2 className='text-sans font-semibold! text-magenta-700 mt-1'>
+            <p className='text-serif italic text-xl md:text-2xl text-rose'>
+              Hi, I'm Sapna
+            </p>
+            <h2 className='text-sans font-semibold! text-magenta-700 mt-1 text-2xl! md:text-3xl!'>
               My Journey From Pain To Purpose
             </h2>
             <div className='divider-rose mt-4' />
@@ -407,10 +426,12 @@ export default function AkashicLandingPage() {
                       {t.emoji}
                     </div>
                     <div className='pt-2'>
-                      <h4 className='text-sans text-sm! font-semibold! text-magenta-700'>
+                      <h4 className='text-sans text-base! font-semibold! text-magenta-700'>
                         {t.title}
                       </h4>
-                      <p className='text-xs text-muted mt-1'>{t.desc}</p>
+                      <p className='text-sm md:text-base text-ink-700 mt-1 leading-relaxed'>
+                        {t.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -419,19 +440,19 @@ export default function AkashicLandingPage() {
             <blockquote
               className={`mt-10 !border-l-0 rounded-2xl p-8 ${GLASS}`}
             >
-              <p className='text-base not-italic text-ink-900 font-normal'>
+              <p className='text-lg not-italic text-ink-900 font-normal leading-relaxed'>
                 "Finding the soul-level root cause is only the first step. You
                 still have to live and transform your everyday human life."
               </p>
-              <p className='text-sm not-italic text-muted font-normal mt-3'>
+              <p className='text-base not-italic text-ink-700 font-normal mt-3 leading-relaxed'>
                 I blend the deep spiritual wisdom of the Akashic Records with
                 highly practical, human-level transformation tools to help you
                 break free from your patterns and step into your power.
               </p>
             </blockquote>
-            <p className='text-serif italic text-burgundy mt-5'>
+            <p className='text-serif italic text-burgundy mt-5 text-base md:text-lg'>
               — Sapna Lamba
-              <span className='block text-sans not-italic text-xs text-muted mt-1'>
+              <span className='block text-sans not-italic text-sm md:text-base text-ink-700 mt-1'>
                 Certified Akashic Record Reader · Life & Relationship Coach ·
                 Soul Healing Guide
               </span>
@@ -446,7 +467,7 @@ export default function AkashicLandingPage() {
         <div className='orb orb-rose w-[280px] h-[280px] bottom-[-80px] left-[-60px] opacity-70' />
         <div className='section relative z-10'>
           <Eyebrow>The 4-Week Transformation Journey</Eyebrow>
-          <p className='page-desc text-center max-w-xl mx-auto mt-3'>
+          <p className='text-center max-w-xl mx-auto mt-3 text-base md:text-lg leading-relaxed text-ink-800'>
             We don't just look at the surface-level problem. We bridge the gap
             between soul-level and practical, daily human action across your
             Health, Wealth & Relationships.
@@ -455,23 +476,23 @@ export default function AkashicLandingPage() {
             {journeySteps.map((s, i) => (
               <div
                 key={s.num}
-                className={`reveal d${i + 1} relative text-center pt-10 rounded-2xl p-7 ${GLASS} transition-transform! hover:-translate-y-2`}
+                className={`reveal d${i + 1} relative text-center pt-10 rounded-sm p-7 ${GLASS} transition-transform! hover:-translate-y-2`}
               >
-                <span className='absolute -top-4 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-magenta-700 text-white flex items-center justify-center text-xs font-bold font-sans shadow-[0_4px_16px_rgba(58,10,42,0.4)]'>
+                <span className='absolute -top-4 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-magenta-700 text-white flex items-center justify-center text-sm font-bold font-sans shadow-[0_4px_16px_rgba(58,10,42,0.4)]'>
                   {s.num}
                 </span>
                 <div className='text-3xl mb-3'>{s.emoji}</div>
-                <h3 className='text-sans text-md! font-semibold! text-magenta-700 mb-2'>
+                <h3 className='text-sans text-lg! font-semibold! text-magenta-700 mb-2'>
                   {s.title}
                 </h3>
-                <p className='text-xs text-muted font-normal leading-relaxed'>
+                <p className='text-sm md:text-base text-ink-700 font-normal leading-relaxed'>
                   {s.desc}
                 </p>
               </div>
             ))}
           </div>
           <div
-            className={`reveal mt-14 grid md:grid-cols-2 gap-10 items-center p-10 rounded-2xl ${GLASS}`}
+            className={`reveal mt-14 grid md:grid-cols-2 gap-10 items-center p-10 rounded-sm ${GLASS}`}
           >
             <div>
               <Eyebrow>What's Included</Eyebrow>
@@ -479,7 +500,7 @@ export default function AkashicLandingPage() {
                 {included.map((item) => (
                   <li
                     key={item}
-                    className='flex gap-3 text-sm text-ink-900 font-normal'
+                    className='flex gap-3 text-base md:text-lg text-ink-900 font-normal leading-relaxed'
                   >
                     <span className='w-5 h-5 rounded-full bg-gradient-to-br from-rose-400 to-pink-300 flex items-center justify-center flex-shrink-0 text-white text-[11px] mt-0.5'>
                       ✓
@@ -524,7 +545,7 @@ export default function AkashicLandingPage() {
             <div
               className={`rounded-sm p-7 text-left flex flex-col ${GLASS} shadow-[0_8px_32px_rgba(196,56,138,0.12)]`}
             >
-              <span className='inline-flex self-start items-center bg-rose-500/90 text-white text-[11px] font-bold tracking-[0.15em] uppercase px-5 py-2 rounded-full mb-7 shadow-[0_4px_12px_rgba(220,50,50,0.3)]'>
+              <span className='inline-flex self-start items-center bg-rose-500/90 text-white text-xs font-bold tracking-[0.15em] uppercase px-5 py-2 rounded-full mb-7 shadow-[0_4px_12px_rgba(220,50,50,0.3)]'>
                 BEFORE
               </span>
               <ul className='flex-1'>
@@ -541,7 +562,7 @@ export default function AkashicLandingPage() {
                       <span className='w-11 h-11 shrink-0 rounded-full bg-white/40 backdrop-blur-md border border-white/60 flex items-center justify-center text-lg shadow-sm'>
                         {item.icon}
                       </span>
-                      <span className='text-sm font-medium text-ink-900'>
+                      <span className='text-base font-medium text-ink-900'>
                         {item.label}
                       </span>
                     </div>
@@ -569,7 +590,7 @@ export default function AkashicLandingPage() {
                 />
                 {/* fallback placeholder shown until you add the real image */}
                 <div className='absolute inset-0 flex items-center justify-center bg-gradient-to-b from-gray-200 to-gray-400 -z-10'>
-                  <span className='text-xs text-gray-500 font-medium'>
+                  <span className='text-sm text-gray-600 font-medium'>
                     Before photo
                   </span>
                 </div>
@@ -589,7 +610,7 @@ export default function AkashicLandingPage() {
                 />
                 {/* fallback placeholder shown until you add the real image */}
                 <div className='absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-200 to-pink-300 -z-10'>
-                  <span className='text-xs text-white font-medium'>
+                  <span className='text-sm text-white font-medium'>
                     After photo
                   </span>
                 </div>
@@ -607,7 +628,7 @@ export default function AkashicLandingPage() {
             <div
               className={`rounded-sm p-7 text-left flex flex-col ${GLASS} shadow-[0_8px_32px_rgba(76,175,125,0.14)]`}
             >
-              <span className='inline-flex self-start items-center bg-emerald-600/90 text-white text-[11px] font-bold tracking-[0.15em] uppercase px-5 py-2 rounded-full mb-7 shadow-[0_4px_12px_rgba(76,175,125,0.35)]'>
+              <span className='inline-flex self-start items-center bg-emerald-600/90 text-white text-xs font-bold tracking-[0.15em] uppercase px-5 py-2 rounded-full mb-7 shadow-[0_4px_12px_rgba(76,175,125,0.35)]'>
                 AFTER
               </span>
               <ul className='flex-1'>
@@ -624,7 +645,7 @@ export default function AkashicLandingPage() {
                       <span className='w-11 h-11 shrink-0 rounded-full bg-white/40 backdrop-blur-md border border-white/60 flex items-center justify-center text-lg shadow-sm'>
                         {item.icon}
                       </span>
-                      <span className='text-sm font-medium text-ink-900'>
+                      <span className='text-base font-medium text-ink-900'>
                         {item.label}
                       </span>
                     </div>
@@ -642,32 +663,32 @@ export default function AkashicLandingPage() {
       {/* ── TESTIMONIALS ── */}
       <section className='relative overflow-hidden bg-gradient-to-br from-pink-100 via-pink-50 to-pink-100 py-8'>
         <div className='orb orb-rose w-[340px] h-[340px] top-[-80px] right-[10%] opacity-50' />
-        <div className='section-sm !max-w-5xl mx-auto reveal'>
+        <div className='section-sm max-w-5xl! mx-auto reveal'>
           <Eyebrow>Loved By Souls Worldwide</Eyebrow>
-          <h3 className='text-serif text-magenta-700 text-center mt-3 mb-10'>
+          <h3 className='text-serif text-magenta-700 text-center mt-3 mb-10 text-2xl md:text-3xl'>
             Real Transformations, Real People
           </h3>
           <div className='grid md:grid-cols-3 gap-6'>
             {testimonials.map((t, i) => (
               <div
                 key={t.name}
-                className={`reveal d${i + 1} p-7 rounded-2xl ${GLASS} shadow-[0_4px_24px_rgba(196,56,138,0.08)]`}
+                className={`reveal d${i + 1} p-7 rounded-sm ${GLASS} shadow-[0_4px_24px_rgba(196,56,138,0.08)]`}
               >
                 <div className='flex gap-0.5 text-yellow-400 mb-4'>
                   {'★★★★★'.split('').map((s, j) => (
                     <span key={j}>{s}</span>
                   ))}
                 </div>
-                <p className='text-sm text-ink-mid font-light leading-relaxed italic mb-5'>
+                <p className='text-base text-ink-800 font-normal leading-relaxed italic mb-5'>
                   "{t.quote}"
                 </p>
                 <div className='flex items-center gap-3'>
                   <div className='w-10 h-10 rounded-full bg-gradient-to-br from-pink-100 to-pink-300' />
                   <div>
-                    <div className='text-sm font-semibold text-magenta-700'>
+                    <div className='text-base font-semibold text-magenta-700'>
                       {t.name}
                     </div>
-                    <div className='text-xs text-muted'>{t.city}</div>
+                    <div className='text-sm text-ink-700'>{t.city}</div>
                   </div>
                 </div>
               </div>
@@ -683,11 +704,11 @@ export default function AkashicLandingPage() {
       >
         <div className='orb orb-rose w-105 h-105 -top-30 -left-20 opacity-50' />
         <div className='section relative z-10 flex flex-col justify-center gap-10 items-center py-20!'>
-          <div className='reveal-left'>
-            <h2 className='text-serif text-white text-center! mb-4'>
+          <div className='reveal-left text-center'>
+            <h2 className='text-serif text-white text-center! mb-4 text-3xl md:text-4xl'>
               The Offer
             </h2>
-            <p className='text-sm text-pink-100 font-light leading-relaxed'>
+            <p className='text-base md:text-lg text-white font-normal leading-relaxed'>
               Healing should feel supported, safe and compassionate. <br></br>{' '}
               You don't have to figure everything out alone.
             </p>
@@ -708,10 +729,10 @@ export default function AkashicLandingPage() {
               ].map((g) => (
                 <li
                   key={g}
-                  className='flex gap-2 text-xs text-pink-200 font-light'
+                  className='flex gap-2 text-sm md:text-base text-white font-medium'
                 >
                   <Check
-                    className='w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-pink-300'
+                    className='w-4 h-4 mt-0.5 flex-shrink-0 text-pink-100'
                     strokeWidth={3}
                   />
                   {g}
