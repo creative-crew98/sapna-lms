@@ -301,7 +301,7 @@ export default function AkashicLandingPage() {
         <div className='orb orb-rose w-100 h-100 -top-35 -right-25' />
         <div className='orb orb-gold w-95 h-95 -bottom-30 -left-20' />
 
-        <div className='section relative z-10 flex flex-col items-center text-center py-24! max-w-3xl! mx-auto'>
+        <div className='section relative z-10 flex flex-col items-center text-center py-24! max-w-7xl! mx-auto'>
           <style>{`
             @keyframes eyebrowFloat {
               0%, 100% { transform: translateY(0); }
@@ -318,18 +318,22 @@ export default function AkashicLandingPage() {
           </p>
 
           {/* ── Headline ── */}
-          <h1 className='reveal text-sans text-ink-900 leading-tight font-semibold! text-4xl! md:text-6xl!'>
+          <h1 className='reveal text-sans text-ink-900 leading-tight font-semibold! text-2xl! md:text-4xl!'>
             We Help Individuals Stuck In Cycles Of{' '}
             <span className='text-gradient-shimmer italic'>
               Poor Health, Wealth &amp; Broken Relationships
             </span>{' '}
-            To Heal Root Karmic Blocks — Using The Akashic Alignment Method
+            To Heal Root Karmic Blocks — <br />
+            <span className='text-gradient-shimmer italic'>
+              In Single Session
+            </span>{' '}
+            Using The Akashic Alignment Method
           </h1>
 
           <div className='divider-rose mt-6' />
 
           {/* ── Subheadline ── */}
-          <p className='reveal max-w-2xl mt-4 text-lg md:text-xl leading-relaxed text-ink-800'>
+          <p className='reveal max-w-5xl mt-4 text-lg md:text-xl leading-relaxed text-ink-800'>
             The Done-With-You{' '}
             <strong className='text-magenta-700'>
               "Life &amp; Wealth System"
