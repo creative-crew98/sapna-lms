@@ -34,9 +34,17 @@ export async function verifyOtp(email: string, code: string): Promise<boolean> {
   if (data.otp !== code) return false
   if (!data.expiresAt) return false
 
-  // firebase-admin returns Date for Timestamp fields in most cases.
+  // Firebase Admin SDK returns Firestore `Timestamp` objects for date
+  // fields, NOT native JS `Date` instances — so `instanceof Date` was
+  // always false here, making expiresAtMs always NaN and every OTP look
+  // expired/invalid, no matter what. Handle both shapes safely.
+  const raw: any = data.expiresAt
   const expiresAtMs =
-    data.expiresAt instanceof Date ? data.expiresAt.getTime() : NaN
+    raw instanceof Date
+      ? raw.getTime()
+      : typeof raw?.toMillis === 'function'
+        ? raw.toMillis()
+        : NaN
   if (Number.isNaN(expiresAtMs)) return false
 
   if (expiresAtMs < Date.now()) return false

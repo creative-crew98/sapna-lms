@@ -29,9 +29,8 @@ export async function POST() {
     return NextResponse.json({ shortUrl: link.short_url })
   } catch (err: any) {
     console.error('payment-link create error:', err)
-    return NextResponse.json(
-      { error: err.message || 'Failed to create payment link' },
-      { status: 500 },
-    )
+    const reason =
+      err?.error?.description || err?.message || 'Failed to create payment link'
+    return NextResponse.json({ error: reason }, { status: 500 })
   }
 }
