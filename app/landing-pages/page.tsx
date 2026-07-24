@@ -15,8 +15,20 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 
-/* ── Razorpay Config ── */
-const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/l/YOUR_PAYMENT_LINK'
+/* ── Razorpay: link is generated on-demand by /api/payment-link ── */
+async function goToPaymentLink() {
+  try {
+    const res = await fetch('/api/payment-link', { method: 'POST' })
+    const data = await res.json()
+    if (!res.ok || !data.shortUrl) {
+      alert('Something went wrong. Please try again in a moment.')
+      return
+    }
+    window.location.href = data.shortUrl
+  } catch {
+    alert('Something went wrong. Please try again in a moment.')
+  }
+}
 
 /* ── Scroll Reveal ── */
 function useScrollReveal() {
@@ -346,7 +358,7 @@ export default function AkashicLandingPage() {
           <div className='reveal-scale mt-10'>
             <div className='float-slow relative w-65 h-85 sm:w-85 sm:h-110 rounded-sm overflow-hidden shadow-[0_24px_64px_rgba(196,56,138,0.3)] border-[3px] border-white/60 pulse-ring'>
               <Image
-                src='/about.jpeg'
+                src='/landing1.png'
                 alt='Coach Photo'
                 fill
                 sizes='(max-width: 640px) 260px, 340px'
@@ -441,14 +453,14 @@ export default function AkashicLandingPage() {
           <div className='reveal-left'>
             <div className='aspect-3/4 rounded-sm overflow-hidden relative shadow-[0_20px_60px_rgba(196,56,138,0.25)]'>
               <Image
-                src='/landing.jpeg'
+                src='/landing2.png'
                 alt='Sapna Lamba'
                 fill
                 sizes='(max-width: 1024px) 100vw, 40vw'
                 style={{
                   objectFit: 'cover',
                   objectPosition: 'center center',
-                  transform: 'scale(1.5)',
+                  transform: 'scale(1)',
                 }}
                 onError={(e) => {
                   ;(e.target as HTMLImageElement).style.display = 'none'
@@ -765,10 +777,7 @@ export default function AkashicLandingPage() {
             </p>
           </div>
           <div className='reveal-right text-center'>
-            <CTAButton
-              className='w-full'
-              onClick={() => window.open(RAZORPAY_PAYMENT_LINK, '_blank')}
-            >
+            <CTAButton className='w-full' onClick={goToPaymentLink}>
               Reserve My Spot Now →
             </CTAButton>
             <ul className='text-left mt-6 space-y-2.5 grid! grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-md mx-auto'>

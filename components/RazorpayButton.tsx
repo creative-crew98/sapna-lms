@@ -123,7 +123,9 @@ export default function RazorpayButton({
 
             toast.success('Payment successful! Welcome to your journey ✦')
             onSuccess?.()
-            router.push('/dashboard')
+            router.push(
+              `/thank-you?payment_id=${encodeURIComponent(response.razorpay_payment_id)}`,
+            )
           } catch {
             toast.error('Verification failed. Please contact support.')
           } finally {

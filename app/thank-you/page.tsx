@@ -257,14 +257,17 @@ export default function ThankYouPage() {
         </div>
 
         {/* CTA */}
-        <CTAButton href='https://wa.me/91XXXXXXXXXX'>
+        <CTAButton href='https://wa.me/91999915305'>
           💬 Message Sapna on WhatsApp
         </CTAButton>
 
         <p className='text-xs text-muted mt-5'>
           Questions? Write to{' '}
-          <a href='mailto:sapna@example.com' className='text-rose font-medium'>
-            sapna@example.com
+          <a
+            href='mailto:soulawakeingwithsapna@gmail.com'
+            className='text-rose font-medium'
+          >
+            soulawakeingwithsapna@gmail.com
           </a>
         </p>
       </div>
