@@ -17,6 +17,9 @@ export async function POST() {
     const link = await razorpay.paymentLink.create({
       amount,
       currency: 'INR',
+      // `customer` is required by Razorpay's types even though every field
+      // inside it is optional — we don't collect customer info up front.
+      customer: {},
       // Redirects the customer here after a successful payment.
       callback_url: `${process.env.NEXT_PUBLIC_APP_URL}/thank-you`,
       callback_method: 'get',
